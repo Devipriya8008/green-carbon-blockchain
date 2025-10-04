@@ -1,0 +1,90 @@
+{
+  "name": "blue-carbon-network",
+  "version": "1.0.0",
+  "client": {
+    "organization": "ngo",
+    "connection": {
+      "timeout": {
+        "peer": {
+          "endorser": "300"
+        },
+        "orderer": "300"
+      }
+    }
+  },
+  "channels": {
+    "mrvchannel": {
+      "orderers": ["orderer.mrv-orderer.com"],
+      "peers": {
+        "peer0.ngo.com": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        },
+        "peer0.verifier.com": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        }
+      }
+    }
+  },
+  "organizations": {
+    "ngo": {
+      "mspid": "NGOMSP",
+      "peers": ["peer0.ngo.com"],
+      "certificateAuthorities": ["ca.ngo.com"]
+    },
+    "verifier": {
+      "mspid": "VerifierMSP",
+      "peers": ["peer0.verifier.com"]
+    }
+  },
+  "orderers": {
+    "orderer.mrv-orderer.com": {
+      "url": "grpcs://localhost:7050",
+      "tlsCACerts": {
+        "path": "../organizations/ordererOrganizations/mrv-orderer.com/orderers/orderer.mrv-orderer.com/msp/tlscacerts/tlsca.mrv-orderer.com-cert.pem"
+      },
+      "grpcOptions": {
+        "ssl-target-name-override": "orderer.mrv-orderer.com"
+      }
+    }
+  },
+  "peers": {
+    "peer0.ngo.com": {
+      "url": "grpcs://localhost:7051",
+      "tlsCACerts": {
+        "path": "../organizations/peerOrganizations/ngo.com/peers/peer0.ngo.com/tls/ca.crt"
+      },
+      "grpcOptions": {
+        "ssl-target-name-override": "peer0.ngo.com",
+        "hostnameOverride": "peer0.ngo.com"
+      }
+    },
+    "peer0.verifier.com": {
+      "url": "grpcs://localhost:9051",
+      "tlsCACerts": {
+        "path": "../organizations/peerOrganizations/verifier.com/peers/peer0.verifier.com/tls/ca.crt"
+      },
+      "grpcOptions": {
+        "ssl-target-name-override": "peer0.verifier.com",
+        "hostnameOverride": "peer0.verifier.com"
+      }
+    }
+  },
+  "certificateAuthorities": {
+    "ca.ngo.com": {
+      "url": "https://localhost:7054",
+      "caName": "ca-ngo",
+      "tlsCACerts": {
+        "path": "../organizations/peerOrganizations/ngo.com/ca/ca.ngo.com-cert.pem"
+      },
+      "httpOptions": {
+        "verify": false
+      }
+    }
+  }
+}
